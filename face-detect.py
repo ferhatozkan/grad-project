@@ -208,30 +208,32 @@ def test_main():
     green = []
     blue = []  
     result =[]
+    excep=0
     for image in samples:
         width, height = image.size
-
+        print("hy")
         pixel_values = list(image.getdata())  
         pixel_values = np.array(pixel_values).reshape((width, height, 3))
-        
+        total=None
         total=0
+        width=round((width/5)*3)
         for x in range(width):
             average = pixel_values[x]
             for y in range(height):
                 mid = average[y]
-                if mid [0] > 95 and mid [1] > 40 and mid [2] > 20 and (max(mid[0],mid[1],mid[2])-min(mid[0],mid[1],mid[2])) >15 and math.fabs(mid[0]-mid[1])>15 and mid[0]>mid[1] and mid[0]>mid[2]:
+                a=mid[2]
+                mid[2]=mid[0]
+                mid[0]=a
+                if (mid [2] > 95 and mid [1] > 40 and mid [0] > 20 and (max(mid[0],mid[1],mid[2])-min(mid[0],mid[1],mid[2])) >15 and math.fabs(mid[2]-mid[1])>15 and mid[2]>mid[1] and mid[2]>mid[1]):
                     total=mid+total
                 else:
-                    excep=+1
-                    pixel_values[x][y][0]=255
-                    pixel_values[x][y][1]=255
-                    pixel_values[x][y][2]=255
-                    
-        ##cv2.rectangle(frame, (bX, bY), (bX + bW, bY + bH),(0, 255, 0), 1)
-        
+                    excep+=1
+                        
+        #cv2.rectangle(frame, (bX, bY), (bX + bW, bY + bH),(0, 255, 0), 1)
+        #cv2.imwrite("renk%d.jpg" % numff, pixel_values)
         total=total/((width*height)-excep)
-        #print(total)
-        #print(numff)
+
+
         red.append(total[0])
         green.append(total[1])
         blue.append(total[2])
@@ -335,6 +337,6 @@ if __name__== "__main__":
     # main2()
     # test_main2()
     # save_skin_only_images()
-    # test_main3()
-    plot_data()
+    test_main()
+    # plot_data()
     # video_to_frames()
